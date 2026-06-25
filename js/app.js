@@ -115,10 +115,25 @@ async function startOAuthLogin() {
     const copyBtn = document.getElementById('btn-copy-code');
     copyBtn.textContent = 'Copy';
     copyBtn.classList.remove('copied');
-    copyBtn.onclick = async () => {
-      await navigator.clipboard.writeText(userCode);
-      copyBtn.textContent = 'Copied!';
-      copyBtn.classList.add('copied');
+    copyBtn.onclick = (e) => {
+      e.stopPropagation();
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = userCode;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        copyBtn.textContent = 'Copied!';
+        copyBtn.classList.add('copied');
+      } catch (err) {
+        navigator.clipboard.writeText(userCode).then(() => {
+          copyBtn.textContent = 'Copied!';
+          copyBtn.classList.add('copied');
+        });
+      }
     };
     document.getElementById('device-waiting').classList.add('polling');
     modal.classList.add('active');
