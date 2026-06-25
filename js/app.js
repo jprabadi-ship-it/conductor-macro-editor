@@ -36,9 +36,11 @@ async function init() {
   });
 
   if (gh.hasToken) {
-    showAuthBadge();
     document.getElementById('repo-input').value = `${gh.owner}/${gh.repo}`;
-    try { await loadBranches(); } catch (e) { /* ignore */ }
+    try {
+      await showLoggedInUser();
+      await loadBranches();
+    } catch (e) { /* token might be expired */ }
   }
 }
 
@@ -62,8 +64,8 @@ function setupAuth() {
     applyRepoInput();
     document.getElementById('pat-modal').classList.remove('active');
     try {
+      await showLoggedInUser();
       await loadBranches();
-      showAuthBadge();
       showStatus('Authenticated', 'success');
     } catch (e) {
       showStatus(e.message, 'error');
@@ -76,6 +78,16 @@ function setupAuth() {
 
   document.getElementById('device-cancel').onclick = () => {
     document.getElementById('device-flow-modal').classList.remove('active');
+  };
+
+  document.getElementById('btn-logout').onclick = () => {
+    localStorage.removeItem('gh_pat');
+    gh.token = '';
+    document.getElementById('auth-area').style.display = '';
+    document.getElementById('user-area').style.display = 'none';
+    document.getElementById('branch-select').disabled = true;
+    document.getElementById('btn-fetch').disabled = true;
+    showStatus('Logged out', 'info');
   };
 
   document.getElementById('btn-fetch').onclick = fetchKeymap;
@@ -103,7 +115,7 @@ async function startOAuthLogin() {
 
     gh.setToken(token);
     applyRepoInput();
-    showAuthBadge();
+    await showLoggedInUser();
     await loadBranches();
     showStatus('Logged in via GitHub', 'success');
   } catch (e) {
@@ -120,10 +132,12 @@ function applyRepoInput() {
   }
 }
 
-function showAuthBadge() {
-  const badge = document.getElementById('auth-status');
-  badge.textContent = 'Connected';
-  badge.style.display = '';
+async function showLoggedInUser() {
+  const user = await gh.getUser();
+  document.getElementById('auth-area').style.display = 'none';
+  document.getElementById('user-area').style.display = '';
+  document.getElementById('user-avatar').src = user.avatar_url;
+  document.getElementById('user-name').textContent = user.login;
 }
 
 async function loadBranches() {

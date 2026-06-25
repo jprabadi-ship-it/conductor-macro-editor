@@ -9,8 +9,14 @@
 <body>
   <header class="header">
     <h1>Conductor Macro Editor</h1>
-    <button id="btn-login" class="btn-primary">Login with GitHub</button>
-    <span id="auth-status" class="auth-badge" style="display:none"></span>
+    <div id="auth-area">
+      <button id="btn-login" class="btn-primary">Login with GitHub</button>
+    </div>
+    <div id="user-area" style="display:none">
+      <img id="user-avatar" class="user-avatar" src="" alt="">
+      <span id="user-name" class="user-name"></span>
+      <button id="btn-logout" class="btn-link">Logout</button>
+    </div>
     <input type="text" id="repo-input" placeholder="owner/repo" value="jprabadi-ship-it/conductor-private">
     <select id="branch-select" disabled>
       <option>Select branch...</option>
@@ -18,7 +24,7 @@
     <button id="btn-fetch" disabled>Fetch</button>
     <span id="status" class="status"></span>
     <button id="btn-pat-toggle" class="btn-link" title="Use PAT instead">PAT</button>
-    <span class="version">v0.2.0</span>
+    <span class="version">v0.2.1</span>
 
   <div class="modal" id="device-flow-modal">
     <div class="device-flow-content">

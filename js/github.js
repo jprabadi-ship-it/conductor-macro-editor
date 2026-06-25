@@ -24,6 +24,10 @@ export class GitHubClient {
     return this.token.length > 0;
   }
 
+  async getUser() {
+    return this._fetch('/user');
+  }
+
   async _fetch(path, opts = {}) {
     const res = await fetch(`${API}${path}`, {
       ...opts,
