@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conductor Macro Editor</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <h1>Conductor Macro Editor</h1>
+    <input type="password" id="token-input" placeholder="GitHub PAT">
+    <input type="text" id="repo-input" placeholder="owner/repo" value="jprabadi-ship-it/conductor-private">
+    <button id="btn-auth">Connect</button>
+    <select id="branch-select" disabled>
+      <option>Select branch...</option>
+    </select>
+    <button id="btn-fetch" disabled>Fetch</button>
+    <span id="status" class="status"></span>
+  </header>
+
+  <div class="main">
+    <div class="panel" id="macro-list">
+      <div class="empty-msg">Connect to GitHub and fetch a keymap</div>
+    </div>
+
+    <div class="panel" id="macro-detail">
+      <div class="empty-msg">Select a macro to edit</div>
+    </div>
+
+    <div class="panel" id="layer-view">
+      <div class="empty-msg">Load a keymap first</div>
+    </div>
+
+    <div class="bottom-bar">
+      <h3>Changes</h3>
+      <div id="diff-preview">
+        <div class="diff-empty">No changes</div>
+      </div>
+      <div class="commit-row">
+        <input type="text" id="commit-msg" placeholder="Commit message (optional)">
+        <button class="btn-primary" id="btn-commit" disabled>Commit & Push</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="key-picker-modal"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
