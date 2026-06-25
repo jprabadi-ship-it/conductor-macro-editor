@@ -305,7 +305,8 @@ function setupCommit() {
       state.dirty = false;
       renderDiff();
       const actionsUrl = `https://github.com/${gh.owner}/${gh.repo}/actions`;
-      showStatus(`Committed! <a href="${actionsUrl}" target="_blank">Actions でビルド状況を確認 →</a>`, 'success');
+      showStatus('Committed!', 'success');
+      document.getElementById('commit-status').innerHTML = `<a href="${actionsUrl}" target="_blank">Actions でビルド状況を確認 →</a>`;
     } catch (e) {
       showStatus(e.message, 'error');
     }

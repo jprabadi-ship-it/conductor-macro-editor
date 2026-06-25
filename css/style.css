@@ -805,6 +805,19 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   border-color: var(--accent);
 }
 
+.commit-status {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.commit-status a {
+  color: var(--green);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.commit-status a:hover { opacity: 0.8; }
+
 .empty-msg {
   color: var(--text-dim);
   text-align: center;
