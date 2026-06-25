@@ -304,7 +304,8 @@ function setupCommit() {
       state.parsed = parseKeymap(modified);
       state.dirty = false;
       renderDiff();
-      showStatus('Committed! CI build will start automatically.', 'success');
+      const actionsUrl = `https://github.com/${gh.owner}/${gh.repo}/actions`;
+      showStatus(`Committed! <a href="${actionsUrl}" target="_blank">Actions でビルド状況を確認 →</a>`, 'success');
     } catch (e) {
       showStatus(e.message, 'error');
     }
@@ -313,7 +314,7 @@ function setupCommit() {
 
 function showStatus(msg, type) {
   const el = document.getElementById('status');
-  el.textContent = msg;
+  el.innerHTML = msg;
   el.className = `status status-${type}`;
 }
 

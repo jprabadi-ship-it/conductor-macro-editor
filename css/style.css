@@ -129,6 +129,14 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .status-error { color: var(--red); }
 .status-info { color: var(--accent); }
 
+.status a {
+  color: inherit;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.status a:hover { opacity: 0.8; }
+
 .version {
   font-size: 10px;
   color: var(--text-dim);
