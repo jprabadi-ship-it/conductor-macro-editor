@@ -100,10 +100,16 @@ function renderGrid(layer, layerIdx, macroNames) {
         <span class="half-label">L</span>
         ${leftRows.join('')}
       </div>
-      <div class="trackball-indicator"></div>
       <div class="keyboard-half keyboard-right">
         <span class="half-label">R</span>
-        ${rightRows.join('')}
+        <div class="right-with-trackball">
+          <div class="right-keys">
+            ${rightRows.join('')}
+          </div>
+          <div class="trackball-area">
+            <div class="trackball-indicator"></div>
+          </div>
+        </div>
       </div>
     </div>
   `;

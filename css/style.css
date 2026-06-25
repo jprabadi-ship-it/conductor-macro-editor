@@ -344,12 +344,28 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   font-weight: 500;
 }
 
+.right-with-trackball {
+  display: flex;
+  align-items: flex-start;
+}
+
+.right-keys {
+  flex: 1;
+}
+
+.trackball-area {
+  display: flex;
+  align-items: center;
+  padding-top: 80px;
+  padding-left: 6px;
+}
+
 .trackball-indicator {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: 2px solid #d0d0d0;
-  background: #f0f0f0;
+  background: radial-gradient(circle at 40% 40%, #ffffff, #e0e0e0);
   flex-shrink: 0;
 }
 
