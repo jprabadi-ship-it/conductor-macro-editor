@@ -86,8 +86,8 @@ async function fetchKeymap() {
 
     const parsed = parseKeymap(source);
     state.parsed = parsed;
-    state.macros = parsed.macros;
-    state.layers = parsed.layers;
+    state.macros = JSON.parse(JSON.stringify(parsed.macros));
+    state.layers = JSON.parse(JSON.stringify(parsed.layers));
     state.assignments = parsed.assignments;
     state.selectedMacro = state.macros.length > 0 ? 0 : null;
     state.selectedLayer = 0;
