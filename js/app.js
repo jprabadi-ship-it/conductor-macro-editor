@@ -108,7 +108,7 @@ async function startOAuthLogin() {
     const modal = document.getElementById('device-flow-modal');
     document.getElementById('device-code').textContent = user_code;
     const link = document.getElementById('device-link');
-    link.href = verification_uri;
+    link.href = `${verification_uri}?user_code=${encodeURIComponent(user_code)}`;
     document.getElementById('device-waiting').classList.add('polling');
     modal.classList.add('active');
 
