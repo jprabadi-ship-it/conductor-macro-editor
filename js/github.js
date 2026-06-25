@@ -28,6 +28,11 @@ export class GitHubClient {
     return this._fetch('/user');
   }
 
+  async listRepos() {
+    const repos = await this._fetch('/user/repos?per_page=100&sort=updated');
+    return repos.map(r => ({ full_name: r.full_name, private: r.private }));
+  }
+
   async _fetch(path, opts = {}) {
     const res = await fetch(`${API}${path}`, {
       ...opts,

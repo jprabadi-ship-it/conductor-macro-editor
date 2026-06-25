@@ -36,9 +36,9 @@ async function init() {
   });
 
   if (gh.hasToken) {
-    document.getElementById('repo-input').value = `${gh.owner}/${gh.repo}`;
     try {
       await showLoggedInUser();
+      await loadRepos();
       await loadBranches();
     } catch (e) { /* token might be expired */ }
   }
@@ -61,11 +61,10 @@ function setupAuth() {
     const token = document.getElementById('token-input').value.trim();
     if (!token || token === '••••••••') return;
     gh.setToken(token);
-    applyRepoInput();
     document.getElementById('pat-modal').classList.remove('active');
     try {
       await showLoggedInUser();
-      await loadBranches();
+      await loadRepos();
       showStatus('Authenticated', 'success');
     } catch (e) {
       showStatus(e.message, 'error');
@@ -85,6 +84,9 @@ function setupAuth() {
     gh.token = '';
     document.getElementById('auth-area').style.display = '';
     document.getElementById('user-area').style.display = 'none';
+    document.getElementById('repo-select').innerHTML = '<option>Select repo...</option>';
+    document.getElementById('repo-select').disabled = true;
+    document.getElementById('branch-select').innerHTML = '<option>Select branch...</option>';
     document.getElementById('branch-select').disabled = true;
     document.getElementById('btn-fetch').disabled = true;
     showStatus('Logged out', 'info');
@@ -114,9 +116,8 @@ async function startOAuthLogin() {
     modal.classList.remove('active');
 
     gh.setToken(token);
-    applyRepoInput();
     await showLoggedInUser();
-    await loadBranches();
+    await loadRepos();
     showStatus('Logged in via GitHub', 'success');
   } catch (e) {
     document.getElementById('device-flow-modal').classList.remove('active');
@@ -124,10 +125,24 @@ async function startOAuthLogin() {
   }
 }
 
-function applyRepoInput() {
-  const repoStr = document.getElementById('repo-input').value.trim();
-  if (repoStr.includes('/')) {
-    const [owner, repo] = repoStr.split('/');
+async function loadRepos() {
+  const repos = await gh.listRepos();
+  const select = document.getElementById('repo-select');
+  const saved = `${gh.owner}/${gh.repo}`;
+  select.innerHTML = repos.map(r => {
+    const label = r.private ? `${r.full_name} 🔒` : r.full_name;
+    return `<option value="${r.full_name}" ${r.full_name === saved ? 'selected' : ''}>${label}</option>`;
+  }).join('');
+  select.disabled = false;
+
+  select.onchange = async () => {
+    const [owner, repo] = select.value.split('/');
+    gh.setRepo(owner, repo);
+    await loadBranches();
+  };
+
+  if (select.value) {
+    const [owner, repo] = select.value.split('/');
     gh.setRepo(owner, repo);
   }
 }

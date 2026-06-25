@@ -17,14 +17,16 @@
       <span id="user-name" class="user-name"></span>
       <button id="btn-logout" class="btn-link">Logout</button>
     </div>
-    <input type="text" id="repo-input" placeholder="owner/repo" value="jprabadi-ship-it/conductor-private">
+    <select id="repo-select" disabled>
+      <option>Select repo...</option>
+    </select>
     <select id="branch-select" disabled>
       <option>Select branch...</option>
     </select>
     <button id="btn-fetch" disabled>Fetch</button>
     <span id="status" class="status"></span>
     <button id="btn-pat-toggle" class="btn-link" title="Use PAT instead">PAT</button>
-    <span class="version">v0.2.1</span>
+    <span class="version">v0.2.2</span>
 
   <div class="modal" id="device-flow-modal">
     <div class="device-flow-content">

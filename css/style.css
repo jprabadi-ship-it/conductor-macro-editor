@@ -57,7 +57,7 @@ body {
 }
 
 #token-input { width: 180px; }
-#repo-input { width: 240px; }
+#repo-select { width: 260px; }
 #branch-select { width: 240px; }
 
 /* Buttons */
