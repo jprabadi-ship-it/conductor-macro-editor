@@ -94,6 +94,14 @@ function renderGrid(layer, layerIdx, macroNames) {
     rightRows.push(`<div class="grid-row">${rightKeys.join('')}</div>`);
   }
 
+  const rightBottom = rightRows.pop();
+  const bottomKeys = rightBottom.match(/<div class="grid-key[^]*?<\/div>/g) || [];
+  const bottomWithTrackball = `<div class="grid-row grid-row-trackball">` +
+    bottomKeys.slice(0, 2).join('') +
+    `<div class="trackball-indicator"></div>` +
+    bottomKeys.slice(2).join('') +
+    `</div>`;
+
   return `
     <div class="keyboard-split">
       <div class="keyboard-half keyboard-left">
@@ -102,14 +110,8 @@ function renderGrid(layer, layerIdx, macroNames) {
       </div>
       <div class="keyboard-half keyboard-right">
         <span class="half-label">R</span>
-        <div class="right-with-trackball">
-          <div class="right-keys">
-            ${rightRows.join('')}
-          </div>
-          <div class="trackball-area">
-            <div class="trackball-indicator"></div>
-          </div>
-        </div>
+        ${rightRows.join('')}
+        ${bottomWithTrackball}
       </div>
     </div>
   `;
