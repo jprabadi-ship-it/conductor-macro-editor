@@ -35,9 +35,14 @@ async function init() {
     }
   });
 
+  document.getElementById('btn-cover-login').onclick = () => {
+    document.getElementById('btn-login').click();
+  };
+
   if (gh.hasToken) {
     try {
       await showLoggedInUser();
+      showMainApp();
       await loadRepos();
       await loadBranches();
     } catch (e) { /* token might be expired */ }
@@ -89,6 +94,8 @@ function setupAuth() {
     document.getElementById('branch-select').innerHTML = '<option>Select branch...</option>';
     document.getElementById('branch-select').disabled = true;
     document.getElementById('btn-fetch').disabled = true;
+    document.getElementById('cover').style.display = '';
+    document.getElementById('main-app').style.display = 'none';
     showStatus('Logged out', 'info');
   };
 
@@ -161,6 +168,12 @@ async function showLoggedInUser() {
   document.getElementById('user-area').style.display = '';
   document.getElementById('user-avatar').src = user.avatar_url;
   document.getElementById('user-name').textContent = user.login;
+  showMainApp();
+}
+
+function showMainApp() {
+  document.getElementById('cover').style.display = 'none';
+  document.getElementById('main-app').style.display = '';
 }
 
 async function loadBranches() {
