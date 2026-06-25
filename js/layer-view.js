@@ -98,7 +98,7 @@ function renderGrid(layer, layerIdx, macroNames) {
   const bottomKeys = rightBottom.match(/<div class="grid-key[^]*?<\/div>/g) || [];
   const bottomWithTrackball = `<div class="grid-row grid-row-trackball">` +
     bottomKeys.slice(0, 2).join('') +
-    `<div class="trackball-indicator"></div>` +
+    `<div class="trackball-cell"><div class="trackball-indicator"></div></div>` +
     bottomKeys.slice(2).join('') +
     `</div>`;
 

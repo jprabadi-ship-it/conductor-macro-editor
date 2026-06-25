@@ -368,8 +368,18 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   flex-shrink: 0;
 }
 
+.trackball-cell {
+  width: 112px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .grid-row-trackball {
   align-items: center;
+  margin-left: -58px;
 }
 
 .grid-row {
