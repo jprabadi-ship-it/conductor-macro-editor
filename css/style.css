@@ -92,8 +92,8 @@ button:hover { background: var(--bg-hover); }
 button:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btn-add, .btn-add-step {
-  background: var(--green);
-  border-color: var(--green);
+  background: var(--accent);
+  border-color: var(--accent);
   color: #fff;
 }
 
