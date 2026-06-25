@@ -151,6 +151,7 @@ async function loadRepos() {
   if (select.value) {
     const [owner, repo] = select.value.split('/');
     gh.setRepo(owner, repo);
+    await loadBranches();
   }
 }
 
