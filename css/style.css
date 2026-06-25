@@ -359,6 +359,35 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   color: var(--text-dim);
 }
 
+/* Cache Controls */
+.cache-controls {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn-cache {
+  font-size: 11px;
+  padding: 4px 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.btn-cache:hover { background: var(--bg-hover); }
+.btn-cache:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.cache-info {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
 /* Macro Detail */
 .macro-props {
   display: flex;

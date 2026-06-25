@@ -13,6 +13,11 @@ export function renderMacroList() {
   const list = document.getElementById('macro-list');
   const macros = state.macros;
 
+  const cached = getCachedMacros();
+  const cacheInfo = cached
+    ? `<span class="cache-info" title="${cached.date}">${cached.macros.length} macros cached</span>`
+    : '';
+
   list.innerHTML = `
     <div class="panel-header">
       <h2>Macros</h2>
@@ -27,6 +32,11 @@ export function renderMacroList() {
       `).join('')}
       ${macros.length === 0 ? '<div class="empty-msg">No macros defined</div>' : ''}
     </div>
+    <div class="cache-controls">
+      <button class="btn-cache" id="btn-cache-save" ${macros.length === 0 ? 'disabled' : ''}>Save to cache</button>
+      <button class="btn-cache" id="btn-cache-load" ${!cached ? 'disabled' : ''}>Load from cache</button>
+      ${cacheInfo}
+    </div>
   `;
 
   list.querySelectorAll('.macro-item').forEach(el => {
@@ -38,6 +48,23 @@ export function renderMacroList() {
   });
 
   document.getElementById('btn-add-macro').onclick = addMacro;
+
+  document.getElementById('btn-cache-save').onclick = () => {
+    saveMacrosToCache(state.macros, state.assignments);
+    renderMacroList();
+  };
+
+  document.getElementById('btn-cache-load').onclick = () => {
+    const cached = getCachedMacros();
+    if (!cached) return;
+    if (state.macros.length > 0 && !confirm('現在のマクロを上書きしますか？')) return;
+    state.macros = JSON.parse(JSON.stringify(cached.macros));
+    state.selectedMacro = state.macros.length > 0 ? 0 : null;
+    state.dirty = true;
+    renderMacroList();
+    renderMacroDetail();
+    onChangeCallback();
+  };
 }
 
 function addMacro() {
@@ -240,4 +267,21 @@ function addStep() {
   state.dirty = true;
   renderMacroDetail();
   onChangeCallback();
+}
+
+const CACHE_KEY = 'conductor_macro_cache';
+
+function saveMacrosToCache(macros, assignments) {
+  const data = {
+    macros: JSON.parse(JSON.stringify(macros)),
+    assignments: JSON.parse(JSON.stringify(assignments)),
+    date: new Date().toLocaleString('ja-JP'),
+  };
+  localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+}
+
+function getCachedMacros() {
+  const raw = localStorage.getItem(CACHE_KEY);
+  if (!raw) return null;
+  try { return JSON.parse(raw); } catch { return null; }
 }
