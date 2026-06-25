@@ -374,6 +374,13 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.3);
 }
 
+.key-hold {
+  display: block;
+  font-size: 7px;
+  color: var(--text-dim);
+  margin-bottom: 1px;
+}
+
 .grid-key:hover {
   border-color: var(--accent);
 }

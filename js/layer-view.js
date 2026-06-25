@@ -72,7 +72,7 @@ function renderGrid(layer, layerIdx, macroNames) {
         isSelected ? 'key-selected' : ''
       ].join(' ');
 
-      const label = isMacro ? `&${ref}` : truncate(binding, 8);
+      const label = isMacro ? `&${ref}` : formatKeyLabel(binding);
       const keyEl = `<div class="${cls}" data-pos="${pos}" title="${binding}">${label}</div>`;
 
       if (c < 5) leftKeys.push(keyEl);
@@ -87,6 +87,74 @@ function renderGrid(layer, layerIdx, macroNames) {
     `);
   }
   return rows.join('');
+}
+
+function formatKeyLabel(binding) {
+  if (binding === '&none') return '';
+  if (binding === '&trans') return '---';
+
+  const ltMatch = binding.match(/^&lt\s+(\d+)\s+(\w+)$/);
+  if (ltMatch) return `<span class="key-hold">L${ltMatch[1]}</span>${friendlyKey(ltMatch[2])}`;
+
+  const mtMatch = binding.match(/^&mt\s+(\w+)\s+(\w+)$/);
+  if (mtMatch) return `<span class="key-hold">${friendlyMod(mtMatch[1])}</span>${friendlyKey(mtMatch[2])}`;
+
+  const mtShiftMatch = binding.match(/^&mt_shift\s+(\w+)\s+(\w+)$/);
+  if (mtShiftMatch) return `<span class="key-hold">${friendlyMod(mtShiftMatch[1])}</span>${friendlyKey(mtShiftMatch[2])}`;
+
+  const kpMatch = binding.match(/^&kp\s+(.+)$/);
+  if (kpMatch) return friendlyKey(kpMatch[1]);
+
+  const moMatch = binding.match(/^&mo\s+(\d+)$/);
+  if (moMatch) return `L${moMatch[1]}`;
+
+  const togMatch = binding.match(/^&tog\s+(\d+)$/);
+  if (togMatch) return `TG${togMatch[1]}`;
+
+  const mkpMatch = binding.match(/^&mkp\s+(\w+)$/);
+  if (mkpMatch) return mkpMatch[1];
+
+  if (binding.startsWith('&')) return binding.slice(1);
+  return binding;
+}
+
+function friendlyKey(key) {
+  const map = {
+    'SPACE': 'Space', 'ENTER': 'Enter', 'BSPC': 'Bksp', 'DEL': 'Del',
+    'TAB': 'Tab', 'ESC': 'Esc', 'CAPS': 'Caps',
+    'UP': '↑', 'DOWN': '↓', 'LEFT': '←', 'RIGHT': '→',
+    'LSHIFT': 'L Shift', 'RSHIFT': 'R Shift',
+    'LCTRL': 'L Ctrl', 'RCTRL': 'R Ctrl',
+    'LALT': 'L Alt', 'RALT': 'R Alt',
+    'LGUI': 'L Cmd', 'RGUI': 'R Cmd',
+    'LANG1': 'かな', 'LANG2': '英数',
+    'COMMA': ',', 'DOT': '.', 'FSLH': '/', 'BSLH': '\\',
+    'SEMI': ';', 'SQT': "'", 'GRAVE': '`',
+    'MINUS': '-', 'EQUAL': '=', 'PLUS': '+',
+    'LBKT': '[', 'RBKT': ']', 'LPAR': '(', 'RPAR': ')',
+    'EXCL': '!', 'AT': '@', 'HASH': '#', 'DLLR': '$',
+    'PRCNT': '%', 'CARET': '^', 'AMPS': '&', 'STAR': '*',
+    'PIPE': '|', 'UNDER': '_', 'TILDE': '~',
+    'C_VOL_UP': 'Vol+', 'C_VOL_DN': 'Vol-', 'C_MUTE': 'Mute',
+    'C_BRI_UP': 'Bri+', 'C_BRI_DN': 'Bri-',
+    'C_NEXT': 'Next', 'C_PREV': 'Prev', 'C_PLAY_PAUSE': 'Play',
+    'PG_UP': 'PgUp', 'PG_DN': 'PgDn', 'HOME': 'Home', 'END': 'End',
+  };
+  if (map[key]) return map[key];
+  if (key.startsWith('KP_N')) return `KP ${key.slice(4)}`;
+  const modCombo = key.match(/^(L[GCSA]|R[GCSA])\((.+)\)$/);
+  if (modCombo) return `${friendlyMod(modCombo[1])}+${friendlyKey(modCombo[2])}`;
+  return key;
+}
+
+function friendlyMod(mod) {
+  const map = {
+    'LSHIFT': 'LSft', 'RSHIFT': 'RSft',
+    'LCTRL': 'LCtl', 'RCTRL': 'RCtl',
+    'LALT': 'LAlt', 'RALT': 'RAlt',
+    'LGUI': 'LGui', 'RGUI': 'RGui',
+  };
+  return map[mod] || mod;
 }
 
 function truncate(str, len) {
