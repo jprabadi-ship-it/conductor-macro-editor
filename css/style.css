@@ -62,6 +62,21 @@ body {
 #repo-select { width: 260px; }
 #branch-select { width: 240px; }
 
+#layer-select {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  min-width: 180px;
+}
+
+#layer-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
 /* Buttons */
 button {
   background: var(--bg-input);
@@ -367,10 +382,6 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   margin-bottom: 0;
 }
 
-.grid-row:last-child .grid-key {
-  flex: 1;
-  width: auto;
-}
 
 .grid-key {
   width: 54px;
