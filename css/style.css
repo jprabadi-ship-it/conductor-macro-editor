@@ -350,6 +350,16 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   position: relative;
 }
 
+.keyboard-left .grid-row:last-child .grid-key {
+  flex: 1;
+  width: auto;
+  min-width: 0;
+}
+
+.keyboard-right .grid-row:not(.grid-row-trackball) {
+  margin-left: 58px;
+}
+
 .half-label {
   position: absolute;
   top: 4px;
@@ -379,7 +389,6 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .grid-row-trackball {
   align-items: center;
-  margin-left: -58px;
 }
 
 .grid-row {
