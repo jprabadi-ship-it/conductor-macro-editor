@@ -26,7 +26,7 @@
     <button id="btn-fetch" disabled>Fetch</button>
     <span id="status" class="status"></span>
     <button id="btn-pat-toggle" class="btn-link" title="Use PAT instead">PAT</button>
-    <span class="version">v0.5.1</span>
+    <span class="version">v0.5.2</span>
 
   <div class="modal" id="device-flow-modal">
     <div class="device-flow-content">
@@ -82,33 +82,43 @@
       </div>
       <h2>Conductor Macro Editor</h2>
       <p class="cover-desc">
-        Conductor キーボードの ZMK マクロを<br>ブラウザから作成・編集・デプロイ
+        Conductor キーボードの ZMK マクロを<br>ブラウザから作成・編集・デプロイできるツールです
       </p>
       <div class="cover-features">
         <div class="cover-feature">
           <span class="feature-icon">+</span>
           <div>
             <strong>マクロ作成</strong>
-            <span>キーシーケンスやディレイをGUIで組み立て</span>
+            <span>キーの組み合わせやディレイをGUIで組み立て</span>
           </div>
         </div>
         <div class="cover-feature">
           <span class="feature-icon">&harr;</span>
           <div>
             <strong>レイヤー割り当て</strong>
-            <span>実機レイアウト上でキーをクリックして配置</span>
+            <span>実機と同じキーボード表示上でクリックして配置</span>
           </div>
         </div>
         <div class="cover-feature">
           <span class="feature-icon">&uarr;</span>
           <div>
             <strong>ワンクリックデプロイ</strong>
-            <span>Commit &amp; Push で CI ビルドが自動実行</span>
+            <span>Commit &amp; Push するとファームウェアが自動ビルドされます</span>
           </div>
         </div>
       </div>
-      <button id="btn-cover-login" class="btn-primary cover-login">Login with GitHub to get started</button>
-      <p class="cover-note">GitHub アカウントで認証後、リポジトリの keymap ファイルを直接編集できます</p>
+
+      <div class="cover-prereq">
+        <h4>はじめる前に</h4>
+        <ul>
+          <li><a href="https://github.com/signup" target="_blank">GitHub</a> のアカウントが必要です（無料）</li>
+          <li>keymap ファイル（monokey.keymap）を含む GitHub リポジトリが必要です</li>
+          <li>リポジトリに GitHub Actions のビルドワークフローが設定されていること</li>
+        </ul>
+      </div>
+
+      <button id="btn-cover-login" class="btn-primary cover-login">GitHub でログイン</button>
+      <p class="cover-note">ログインすると、あなたのリポジトリの keymap ファイルを直接編集できます。<br>このツールがアクセスするのは許可したリポジトリのみです。</p>
     </div>
   </div>
 
