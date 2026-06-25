@@ -103,12 +103,13 @@ function showPatModal() {
 async function startOAuthLogin() {
   try {
     showStatus('Starting login...', 'info');
-    const { user_code, device_code, verification_uri } = await startDeviceFlow();
+    const data = await startDeviceFlow();
 
     const modal = document.getElementById('device-flow-modal');
-    document.getElementById('device-code').textContent = user_code;
+    document.getElementById('device-code').textContent = data.user_code;
     const link = document.getElementById('device-link');
-    link.href = `${verification_uri}?user_code=${encodeURIComponent(user_code)}`;
+    link.href = data.verification_uri_complete || `${data.verification_uri}?user_code=${encodeURIComponent(data.user_code)}`;
+    const device_code = data.device_code;
     document.getElementById('device-waiting').classList.add('polling');
     modal.classList.add('active');
 
