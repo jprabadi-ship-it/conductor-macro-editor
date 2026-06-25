@@ -363,6 +363,11 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   margin-bottom: 0;
 }
 
+.grid-row:last-child .grid-key {
+  flex: 1;
+  width: auto;
+}
+
 .grid-key {
   width: 54px;
   height: 42px;
