@@ -65,25 +65,29 @@ export function spliceKeymap(parsed, newMacros, layers) {
 }
 
 function applyLayerChanges(source, originalLayers, currentLayers) {
-  const bindingsPattern = /\bbindings\s*=\s*<([\s\S]*?)>/g;
-  let layerIdx = 0;
-  let result = source;
-  let offset = 0;
+  const keymapMatch = /^[ \t]*keymap\s*\{/m.exec(source);
+  if (!keymapMatch) return source;
+  const keymapStart = keymapMatch.index;
 
+  const bindingsPattern = /\bbindings\s*=\s*<([\s\S]*?)>/g;
   const sensorSkip = /sensor-/;
-  let match;
   const allMatches = [];
+  let match;
 
   while ((match = bindingsPattern.exec(source)) !== null) {
+    if (match.index < keymapStart) continue;
+
     const lineStart = source.lastIndexOf('\n', match.index) + 1;
     const linePrefix = source.slice(lineStart, match.index);
     if (sensorSkip.test(linePrefix)) continue;
-    allMatches.push({ index: match.index, length: match[0].length, contentStart: match.index + match[0].length - match[1].length - 1, content: match[1] });
+
+    const contentStart = match.index + match[0].length - match[1].length - 1;
+    allMatches.push({ contentStart, content: match[1] });
   }
 
+  let result = source;
   for (let i = allMatches.length - 1; i >= 0; i--) {
-    const m = allMatches[i];
-    if (i >= currentLayers.length) continue;
+    if (i >= currentLayers.length || i >= originalLayers.length) continue;
 
     const orig = originalLayers[i];
     const curr = currentLayers[i];
@@ -98,10 +102,9 @@ function applyLayerChanges(source, originalLayers, currentLayers) {
     }
     if (!changed) continue;
 
+    const m = allMatches[i];
     const newContent = formatLayerBindings(curr.bindings, m.content);
-    const contentStart = m.contentStart;
-    const contentEnd = contentStart + m.content.length;
-    result = result.slice(0, contentStart) + newContent + result.slice(contentEnd);
+    result = result.slice(0, m.contentStart) + newContent + result.slice(m.contentStart + m.content.length);
   }
 
   return result;
