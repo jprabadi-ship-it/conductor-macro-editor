@@ -32,11 +32,6 @@ export function renderLayerView() {
     <div class="keyboard-grid">
       ${renderGrid(layers[currentLayer], currentLayer, macroNames)}
     </div>
-    <div class="layer-legend">
-      <span class="legend-macro">Macro</span>
-      <span class="legend-normal">Key</span>
-      <span class="legend-none">None</span>
-    </div>
   `;
 
   document.getElementById('layer-select').onchange = e => {
