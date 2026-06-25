@@ -106,10 +106,20 @@ async function startOAuthLogin() {
     const data = await startDeviceFlow();
 
     const modal = document.getElementById('device-flow-modal');
-    document.getElementById('device-code').textContent = data.user_code;
+    const userCode = data.user_code;
+    document.getElementById('device-code').textContent = userCode;
     const link = document.getElementById('device-link');
-    link.href = data.verification_uri_complete || `${data.verification_uri}?user_code=${encodeURIComponent(data.user_code)}`;
+    link.href = data.verification_uri || 'https://github.com/login/device';
     const device_code = data.device_code;
+
+    const copyBtn = document.getElementById('btn-copy-code');
+    copyBtn.textContent = 'Copy';
+    copyBtn.classList.remove('copied');
+    copyBtn.onclick = async () => {
+      await navigator.clipboard.writeText(userCode);
+      copyBtn.textContent = 'Copied!';
+      copyBtn.classList.add('copied');
+    };
     document.getElementById('device-waiting').classList.add('polling');
     modal.classList.add('active');
 

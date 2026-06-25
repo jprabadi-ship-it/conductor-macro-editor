@@ -535,6 +535,14 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   max-width: 400px;
 }
 
+.device-code-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0;
+}
+
 .device-code {
   font-family: 'SF Mono', 'Menlo', monospace;
   font-size: 32px;
@@ -545,8 +553,22 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   border: 2px solid var(--accent);
   border-radius: 8px;
   padding: 16px 24px;
-  margin: 16px 0;
   user-select: all;
+}
+
+.btn-copy {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-copy.copied {
+  color: var(--green);
+  border-color: var(--green);
 }
 
 .device-link {
