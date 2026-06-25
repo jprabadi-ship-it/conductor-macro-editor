@@ -240,6 +240,14 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   max-width: 50vw;
 }
 
+#layer-view {
+  direction: rtl;
+}
+
+#layer-view > * {
+  direction: ltr;
+}
+
 /* Panels */
 .panel {
   border-right: 1px solid var(--border);
