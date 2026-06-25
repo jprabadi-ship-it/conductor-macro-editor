@@ -160,7 +160,7 @@ function renderDiff() {
     return;
   }
 
-  const modified = spliceKeymap(state.parsed, state.macros);
+  const modified = spliceKeymap(state.parsed, state.macros, state.layers);
   const diffs = generateDiff(state.originalSource, modified);
 
   if (diffs.length === 0) {
@@ -181,7 +181,7 @@ function setupCommit() {
   document.getElementById('btn-commit').onclick = async () => {
     if (!state.dirty && !confirm('No changes detected. Commit anyway?')) return;
 
-    const modified = spliceKeymap(state.parsed, state.macros);
+    const modified = spliceKeymap(state.parsed, state.macros, state.layers);
     const msg = document.getElementById('commit-msg').value.trim()
       || 'Update macros via conductor-macro-editor';
 

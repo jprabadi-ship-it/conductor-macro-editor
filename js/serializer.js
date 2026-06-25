@@ -35,27 +35,91 @@ function serializeStep(step) {
   return `<&${step.action} &${step.behavior} ${step.param}>`;
 }
 
-export function spliceKeymap(parsed, newMacros) {
+export function spliceKeymap(parsed, newMacros, layers) {
   const { source, macrosBlock, insertionPoint } = parsed;
   const serialized = serializeMacros(newMacros);
 
+  let result;
   if (macrosBlock) {
     const before = source.slice(0, macrosBlock.start);
     const after = source.slice(macrosBlock.end);
     if (serialized === '') {
       const trimmedBefore = before.replace(/\n+$/, '\n');
-      return trimmedBefore + after.replace(/^\n+/, '\n');
+      result = trimmedBefore + after.replace(/^\n+/, '\n');
+    } else {
+      result = before + serialized + after;
     }
-    return before + serialized + after;
+  } else if (insertionPoint != null) {
+    result = source.slice(0, insertionPoint) +
+             '\n\n' + serialized + '\n' +
+             source.slice(insertionPoint);
+  } else {
+    result = source;
   }
 
-  if (insertionPoint != null) {
-    return source.slice(0, insertionPoint) +
-           '\n\n' + serialized + '\n' +
-           source.slice(insertionPoint);
+  if (layers) {
+    result = applyLayerChanges(result, parsed.layers, layers);
   }
 
-  return source;
+  return result;
+}
+
+function applyLayerChanges(source, originalLayers, currentLayers) {
+  const bindingsPattern = /\bbindings\s*=\s*<([\s\S]*?)>/g;
+  let layerIdx = 0;
+  let result = source;
+  let offset = 0;
+
+  const sensorSkip = /sensor-/;
+  let match;
+  const allMatches = [];
+
+  while ((match = bindingsPattern.exec(source)) !== null) {
+    const lineStart = source.lastIndexOf('\n', match.index) + 1;
+    const linePrefix = source.slice(lineStart, match.index);
+    if (sensorSkip.test(linePrefix)) continue;
+    allMatches.push({ index: match.index, length: match[0].length, contentStart: match.index + match[0].length - match[1].length - 1, content: match[1] });
+  }
+
+  for (let i = allMatches.length - 1; i >= 0; i--) {
+    const m = allMatches[i];
+    if (i >= currentLayers.length) continue;
+
+    const orig = originalLayers[i];
+    const curr = currentLayers[i];
+    if (!orig || !curr) continue;
+
+    let changed = false;
+    for (let j = 0; j < curr.bindings.length; j++) {
+      if (!orig.bindings[j] || orig.bindings[j] !== curr.bindings[j]) {
+        changed = true;
+        break;
+      }
+    }
+    if (!changed) continue;
+
+    const newContent = formatLayerBindings(curr.bindings, m.content);
+    const contentStart = m.contentStart;
+    const contentEnd = contentStart + m.content.length;
+    result = result.slice(0, contentStart) + newContent + result.slice(contentEnd);
+  }
+
+  return result;
+}
+
+function formatLayerBindings(bindings, originalContent) {
+  const lines = originalContent.split('\n');
+  const indentMatch = lines.length > 1 ? /^(\s*)/.exec(lines[1]) : null;
+  const indent = indentMatch ? indentMatch[1] : '';
+
+  const rows = [];
+  for (let r = 0; r < 4; r++) {
+    const start = r * 10;
+    const left = bindings.slice(start, start + 5).join('  ');
+    const right = bindings.slice(start + 5, start + 10).join('  ');
+    rows.push(`${indent}${left}    ${right}`);
+  }
+  return '\n' + rows.join('\n') + '\n' + indent.replace(/  $/, '');
 }
 
 export function updateLayerBinding(source, layerIndex, position, newBinding) {
