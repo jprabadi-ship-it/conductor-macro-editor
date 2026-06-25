@@ -37,11 +37,57 @@ body {
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
-.header h1 {
+.title-menu {
+  position: relative;
+}
+
+.title-menu h1 {
   font-size: 16px;
   font-weight: 600;
   white-space: nowrap;
   color: var(--text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.title-menu h1:hover {
+  opacity: 0.7;
+}
+
+.title-arrow {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.title-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 6px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  min-width: 180px;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.title-dropdown.open {
+  display: block;
+}
+
+.title-dropdown a {
+  display: block;
+  padding: 10px 16px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.title-dropdown a:hover {
+  background: var(--bg-hover);
 }
 
 .header input, .header select {

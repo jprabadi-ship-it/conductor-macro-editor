@@ -144,7 +144,23 @@
 </head>
 <body>
   <div class="guide">
-    <a href="index.html" class="guide-back">&larr; Conductor Macro Editor に戻る</a>
+    <div class="title-menu" style="margin-bottom: 24px;">
+      <h1 id="title-toggle" style="font-size: 16px; cursor: pointer;">Conductor Macro Editor <span class="title-arrow" style="font-size: 11px; color: #888;">&#9662;</span></h1>
+      <div class="title-dropdown" id="title-dropdown" style="display:none; position:absolute; margin-top:6px; background:#fff; border:1px solid #e0e0e0; border-radius:10px; box-shadow:0 4px 16px rgba(0,0,0,0.1); min-width:180px; z-index:50; overflow:hidden;">
+        <a href="index.html" style="display:block; padding:10px 16px; color:#2c2c2c; text-decoration:none; font-size:13px;">Home</a>
+        <a href="guide.html" style="display:block; padding:10px 16px; color:#2c2c2c; text-decoration:none; font-size:13px;">Setup Guide</a>
+      </div>
+    </div>
+    <script>
+      document.getElementById('title-toggle').onclick = (e) => {
+        e.stopPropagation();
+        var dd = document.getElementById('title-dropdown');
+        dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
+      };
+      document.addEventListener('click', () => {
+        document.getElementById('title-dropdown').style.display = 'none';
+      });
+    </script>
 
     <h1>はじめかた</h1>
     <p>Conductor キーボードにマクロを追加し、カスタムファームウェアとしてビルド・書き込みするための準備手順です。所要時間は約 5 分です。</p>
