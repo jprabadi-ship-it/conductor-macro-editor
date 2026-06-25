@@ -492,6 +492,103 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   font-size: 13px;
 }
 
+/* Auth */
+.auth-badge {
+  font-size: 11px;
+  color: var(--green);
+  background: rgba(63, 185, 80, 0.1);
+  border: 1px solid rgba(63, 185, 80, 0.3);
+  border-radius: var(--radius);
+  padding: 3px 8px;
+}
+
+.btn-link {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 11px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.btn-link:hover { color: var(--text); background: transparent; }
+
+/* Device Flow Modal */
+.device-flow-content, .pat-content {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  position: relative;
+  max-width: 400px;
+}
+
+.device-code {
+  font-family: 'SF Mono', 'Menlo', monospace;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--accent);
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: 16px 24px;
+  margin: 16px 0;
+  user-select: all;
+}
+
+.device-link {
+  display: inline-block;
+  padding: 10px 24px;
+  font-size: 14px;
+  text-decoration: none;
+  margin: 8px 0;
+}
+
+.device-waiting {
+  color: var(--text-dim);
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.device-waiting.polling {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.pat-content input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  margin: 12px 0;
+}
+
+.pat-content input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.pat-content button {
+  width: 100%;
+}
+
+.device-flow-content .btn-close,
+.pat-content .btn-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
 /* Key Picker Modal */
 .modal {
   display: none;

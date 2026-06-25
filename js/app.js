@@ -4,6 +4,7 @@ import { spliceKeymap, generateDiff } from './serializer.js';
 import { initMacroEditor, renderMacroList, renderMacroDetail } from './macro-editor.js';
 import { initLayerView, renderLayerView } from './layer-view.js';
 import { initKeyPicker } from './key-picker.js';
+import { startDeviceFlow, pollForToken, isConfigured } from './oauth.js';
 
 const gh = new GitHubClient();
 
@@ -35,33 +36,94 @@ async function init() {
   });
 
   if (gh.hasToken) {
-    document.getElementById('token-input').value = '••••••••';
+    showAuthBadge();
     document.getElementById('repo-input').value = `${gh.owner}/${gh.repo}`;
-    await loadBranches();
+    try { await loadBranches(); } catch (e) { /* ignore */ }
   }
 }
 
 function setupAuth() {
+  // Device Flow (primary)
+  const loginBtn = document.getElementById('btn-login');
+  if (isConfigured()) {
+    loginBtn.onclick = startOAuthLogin;
+  } else {
+    loginBtn.textContent = 'PAT';
+    loginBtn.onclick = showPatModal;
+  }
+
+  // PAT fallback
+  document.getElementById('btn-pat-toggle').onclick = showPatModal;
+
   document.getElementById('btn-auth').onclick = async () => {
     const token = document.getElementById('token-input').value.trim();
     if (!token || token === '••••••••') return;
     gh.setToken(token);
-
-    const repoStr = document.getElementById('repo-input').value.trim();
-    if (repoStr.includes('/')) {
-      const [owner, repo] = repoStr.split('/');
-      gh.setRepo(owner, repo);
-    }
-
+    applyRepoInput();
+    document.getElementById('pat-modal').classList.remove('active');
     try {
       await loadBranches();
+      showAuthBadge();
       showStatus('Authenticated', 'success');
     } catch (e) {
       showStatus(e.message, 'error');
     }
   };
 
+  document.getElementById('pat-cancel').onclick = () => {
+    document.getElementById('pat-modal').classList.remove('active');
+  };
+
+  document.getElementById('device-cancel').onclick = () => {
+    document.getElementById('device-flow-modal').classList.remove('active');
+  };
+
   document.getElementById('btn-fetch').onclick = fetchKeymap;
+}
+
+function showPatModal() {
+  document.getElementById('pat-modal').classList.add('active');
+  document.getElementById('token-input').focus();
+}
+
+async function startOAuthLogin() {
+  try {
+    showStatus('Starting login...', 'info');
+    const { user_code, device_code, verification_uri } = await startDeviceFlow();
+
+    const modal = document.getElementById('device-flow-modal');
+    document.getElementById('device-code').textContent = user_code;
+    const link = document.getElementById('device-link');
+    link.href = verification_uri;
+    document.getElementById('device-waiting').classList.add('polling');
+    modal.classList.add('active');
+
+    const token = await pollForToken(device_code);
+    modal.classList.remove('active');
+
+    gh.setToken(token);
+    applyRepoInput();
+    showAuthBadge();
+    await loadBranches();
+    showStatus('Logged in via GitHub', 'success');
+  } catch (e) {
+    document.getElementById('device-flow-modal').classList.remove('active');
+    showStatus(e.message, 'error');
+  }
+}
+
+function applyRepoInput() {
+  const repoStr = document.getElementById('repo-input').value.trim();
+  if (repoStr.includes('/')) {
+    const [owner, repo] = repoStr.split('/');
+    gh.setRepo(owner, repo);
+  }
+}
+
+function showAuthBadge() {
+  const badge = document.getElementById('auth-status');
+  badge.textContent = 'Connected';
+  badge.style.display = '';
 }
 
 async function loadBranches() {

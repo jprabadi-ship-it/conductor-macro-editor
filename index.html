@@ -9,15 +9,36 @@
 <body>
   <header class="header">
     <h1>Conductor Macro Editor</h1>
-    <input type="password" id="token-input" placeholder="GitHub PAT">
+    <button id="btn-login" class="btn-primary">Login with GitHub</button>
+    <span id="auth-status" class="auth-badge" style="display:none"></span>
     <input type="text" id="repo-input" placeholder="owner/repo" value="jprabadi-ship-it/conductor-private">
-    <button id="btn-auth">Connect</button>
     <select id="branch-select" disabled>
       <option>Select branch...</option>
     </select>
     <button id="btn-fetch" disabled>Fetch</button>
     <span id="status" class="status"></span>
-    <span class="version">v0.1.6</span>
+    <button id="btn-pat-toggle" class="btn-link" title="Use PAT instead">PAT</button>
+    <span class="version">v0.2.0</span>
+
+  <div class="modal" id="device-flow-modal">
+    <div class="device-flow-content">
+      <h3>Login with GitHub</h3>
+      <p>Open the link below and enter this code:</p>
+      <div id="device-code" class="device-code"></div>
+      <a id="device-link" href="" target="_blank" class="btn-primary device-link">Open GitHub</a>
+      <p class="device-waiting" id="device-waiting">Waiting for authorization...</p>
+      <button class="btn-close" id="device-cancel">&times;</button>
+    </div>
+  </div>
+
+  <div class="modal" id="pat-modal">
+    <div class="pat-content">
+      <h3>Connect with PAT</h3>
+      <input type="password" id="token-input" placeholder="GitHub Personal Access Token">
+      <button id="btn-auth" class="btn-primary">Connect</button>
+      <button class="btn-close" id="pat-cancel">&times;</button>
+    </div>
+  </div>
   </header>
 
   <div class="main">
