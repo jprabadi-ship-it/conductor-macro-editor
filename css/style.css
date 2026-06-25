@@ -115,9 +115,17 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 /* Main Layout */
 .main {
   display: grid;
-  grid-template-columns: 220px 1fr 320px;
+  grid-template-columns: minmax(220px, auto) 1fr minmax(340px, auto);
   grid-template-rows: 1fr auto;
   height: calc(100vh - 53px);
+}
+
+/* Resizable panels */
+.panel-resizable {
+  resize: horizontal;
+  overflow: auto;
+  min-width: 220px;
+  max-width: 50vw;
 }
 
 /* Panels */
