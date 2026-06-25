@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>はじめかた — Conductor Macro Editor</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { background: var(--bg); }
+
+    .guide {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    .guide-back {
+      display: inline-block;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+
+    .guide-back:hover { text-decoration: underline; }
+
+    .guide h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .guide > p {
+      color: var(--text-dim);
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+
+    .step {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-header h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .step p {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    .step p:last-child { margin-bottom: 0; }
+
+    .step a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .step a:hover { text-decoration: underline; }
+
+    .step-img {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 10px 0;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    .step-img code {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    .guide-done {
+      text-align: center;
+      margin-top: 32px;
+    }
+
+    .guide-done a {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 12px 32px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .guide-done a:hover { opacity: 0.9; }
+
+    .guide-done p {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 8px;
+    }
+
+    .tip {
+      background: #fefce8;
+      border: 1px solid #fbbf24;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #92400e;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="guide">
+    <a href="index.html" class="guide-back">&larr; Conductor Macro Editor に戻る</a>
+
+    <h1>はじめかた</h1>
+    <p>Conductor キーボードにマクロを追加するための準備手順です。所要時間は約 5 分です。</p>
+
+    <div class="step">
+      <div class="step-header">
+        <span class="step-num">1</span>
+        <h3>GitHub アカウントを作る</h3>
+      </div>
+      <p>
+        すでにアカウントをお持ちの方はスキップしてください。<br>
+        <a href="https://github.com/signup" target="_blank">github.com/signup</a> から無料で作成できます。
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <span class="step-num">2</span>
+        <h3>公式リポジトリをフォークする</h3>
+      </div>
+      <p>
+        <a href="https://github.com/pite1222/conductor" target="_blank">Conductor 公式リポジトリ</a> を開き、右上の <code>Fork</code> ボタンを押してください。
+      </p>
+      <div class="step-img">
+        画面右上にある <code>Fork</code> ボタン → <code>Create fork</code> をクリック
+      </div>
+      <p>
+        これであなたのアカウントにリポジトリのコピーが作られます。マクロの変更はこのコピーに保存されるので、公式リポジトリには影響しません。
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <span class="step-num">3</span>
+        <h3>自動ビルドを有効にする</h3>
+      </div>
+      <p>
+        フォークしたリポジトリを開き、上部のタブから <code>Actions</code> をクリックしてください。
+      </p>
+      <div class="step-img">
+        「I understand my workflows, go ahead and enable them」<br>と表示されたら、緑色のボタンを押して有効化
+      </div>
+      <p>
+        これでマクロを変更するたびに、ファームウェアが自動でビルドされるようになります。
+      </p>
+      <div class="tip">
+        この手順は初回のみです。一度有効化すれば、次回以降は不要です。
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <span class="step-num">4</span>
+        <h3>Macro Editor にログイン</h3>
+      </div>
+      <p>
+        <a href="index.html">Conductor Macro Editor</a> に戻り、<code>GitHub でログイン</code> ボタンを押してください。
+      </p>
+      <p>
+        認証画面が開くので、表示されたコードを入力して許可すると自動的にログインされます。
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <span class="step-num">5</span>
+        <h3>マクロを作成してデプロイ</h3>
+      </div>
+      <p>
+        ログイン後、リポジトリとブランチを選んで <code>Fetch</code> を押すと keymap が読み込まれます。
+      </p>
+      <p>
+        左パネルの <code>+ New</code> でマクロを作成し、右のキーボード表示でキーに割り当てたら、下の <code>Commit &amp; Push</code> を押すだけ。自動ビルドが始まります。
+      </p>
+      <p>
+        ビルド完了後、フォーク先リポジトリの <code>Actions</code> タブから <code>firmware</code> をダウンロードし、キーボードに書き込んでください。
+      </p>
+    </div>
+
+    <div class="guide-done">
+      <a href="index.html">Conductor Macro Editor を開く</a>
+      <p>準備ができたら、さっそく始めましょう</p>
+    </div>
+  </div>
+</body>
+</html>

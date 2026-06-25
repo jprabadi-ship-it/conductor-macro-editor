@@ -271,6 +271,20 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   color: var(--text-dim);
 }
 
+.cover-guide-link {
+  margin-top: 16px;
+}
+
+.cover-guide-link a {
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.cover-guide-link a:hover {
+  text-decoration: underline;
+}
+
 /* Main Layout */
 .main {
   display: grid;
