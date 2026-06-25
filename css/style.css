@@ -321,16 +321,46 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   margin-top: 8px;
 }
 
-.grid-row {
+.keyboard-split {
   display: flex;
-  gap: 16px;
-  margin-bottom: 4px;
+  align-items: center;
   justify-content: center;
+  gap: 12px;
 }
 
-.grid-half {
+.keyboard-half {
+  background: #e8e8e8;
+  border-radius: 14px;
+  padding: 10px;
+  position: relative;
+}
+
+.half-label {
+  position: absolute;
+  top: 4px;
+  left: 10px;
+  font-size: 10px;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.trackball-indicator {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #d0d0d0;
+  background: #f0f0f0;
+  flex-shrink: 0;
+}
+
+.grid-row {
   display: flex;
-  gap: 3px;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.grid-row:last-child {
+  margin-bottom: 0;
 }
 
 .grid-key {

@@ -51,13 +51,23 @@ export function renderLayerView() {
 function renderGrid(layer, layerIdx, macroNames) {
   if (!layer) return '';
 
-  const rows = [];
+  const rowSplits = [
+    { left: 5, right: 5 },
+    { left: 5, right: 5 },
+    { left: 5, right: 5 },
+    { left: 6, right: 4 },
+  ];
+
+  const leftRows = [];
+  const rightRows = [];
+  let pos = 0;
+
   for (let r = 0; r < 4; r++) {
+    const split = rowSplits[r];
     const leftKeys = [];
     const rightKeys = [];
 
-    for (let c = 0; c < 10; c++) {
-      const pos = r * 10 + c;
+    for (let c = 0; c < split.left + split.right; c++) {
       const binding = layer.bindings[pos] || '&none';
       const ref = binding.startsWith('&') ? binding.slice(1) : null;
       const isMacro = ref && macroNames.has(ref);
@@ -75,18 +85,28 @@ function renderGrid(layer, layerIdx, macroNames) {
       const label = isMacro ? `&${ref}` : formatKeyLabel(binding);
       const keyEl = `<div class="${cls}" data-pos="${pos}" title="${binding}">${label}</div>`;
 
-      if (c < 5) leftKeys.push(keyEl);
+      if (c < split.left) leftKeys.push(keyEl);
       else rightKeys.push(keyEl);
+      pos++;
     }
 
-    rows.push(`
-      <div class="grid-row">
-        <div class="grid-half grid-left">${leftKeys.join('')}</div>
-        <div class="grid-half grid-right">${rightKeys.join('')}</div>
-      </div>
-    `);
+    leftRows.push(`<div class="grid-row">${leftKeys.join('')}</div>`);
+    rightRows.push(`<div class="grid-row">${rightKeys.join('')}</div>`);
   }
-  return rows.join('');
+
+  return `
+    <div class="keyboard-split">
+      <div class="keyboard-half keyboard-left">
+        <span class="half-label">L</span>
+        ${leftRows.join('')}
+      </div>
+      <div class="trackball-indicator"></div>
+      <div class="keyboard-half keyboard-right">
+        <span class="half-label">R</span>
+        ${rightRows.join('')}
+      </div>
+    </div>
+  `;
 }
 
 function formatKeyLabel(binding) {
