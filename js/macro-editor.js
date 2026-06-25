@@ -37,6 +37,11 @@ export function renderMacroList() {
       <button class="btn-cache" id="btn-cache-load" ${!cached ? 'disabled' : ''}>Load from cache</button>
       ${cacheInfo}
     </div>
+    <div class="cache-controls">
+      <button class="btn-cache" id="btn-export" ${macros.length === 0 ? 'disabled' : ''}>Export JSON</button>
+      <button class="btn-cache" id="btn-import">Import JSON</button>
+      <input type="file" id="import-file" accept=".json" style="display:none">
+    </div>
   `;
 
   list.querySelectorAll('.macro-item').forEach(el => {
@@ -52,6 +57,35 @@ export function renderMacroList() {
   document.getElementById('btn-cache-save').onclick = () => {
     saveMacrosToCache(state.macros, state.assignments);
     renderMacroList();
+  };
+
+  document.getElementById('btn-export').onclick = exportMacros;
+
+  document.getElementById('btn-import').onclick = () => {
+    document.getElementById('import-file').click();
+  };
+
+  document.getElementById('import-file').onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (!data.macros || !Array.isArray(data.macros)) throw new Error('invalid');
+        if (state.macros.length > 0 && !confirm('現在のマクロを上書きしますか？')) return;
+        state.macros = data.macros;
+        state.selectedMacro = state.macros.length > 0 ? 0 : null;
+        state.dirty = true;
+        renderMacroList();
+        renderMacroDetail();
+        onChangeCallback();
+      } catch {
+        alert('無効なファイルです');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
   };
 
   document.getElementById('btn-cache-load').onclick = () => {
@@ -267,6 +301,21 @@ function addStep() {
   state.dirty = true;
   renderMacroDetail();
   onChangeCallback();
+}
+
+function exportMacros() {
+  const data = {
+    macros: state.macros,
+    assignments: state.assignments,
+    exported: new Date().toISOString(),
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `conductor-macros-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 const CACHE_KEY = 'conductor_macro_cache';
