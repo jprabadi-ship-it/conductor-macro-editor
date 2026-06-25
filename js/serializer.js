@@ -81,8 +81,12 @@ function applyLayerChanges(source, originalLayers, currentLayers) {
     const linePrefix = source.slice(lineStart, match.index);
     if (sensorSkip.test(linePrefix)) continue;
 
-    const contentStart = match.index + match[0].length - match[1].length - 1;
-    allMatches.push({ contentStart, content: match[1] });
+    const content = match[1];
+    const bindingCount = (content.match(/&\w+/g) || []).length;
+    if (bindingCount < 10) continue;
+
+    const contentStart = match.index + match[0].length - content.length - 1;
+    allMatches.push({ contentStart, content });
   }
 
   let result = source;
