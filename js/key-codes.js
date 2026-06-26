@@ -8,15 +8,17 @@ export const KEY_CATEGORIES = [
   },
   {
     name: 'Numbers',
-    keys: ['N0','N1','N2','N3','N4','N5','N6','N7','N8','N9']
+    keys: ['N1','N2','N3','N4','N5','N6','N7','N8','N9','N0']
   },
   {
-    name: 'Keypad',
+    name: 'Symbols',
     keys: [
-      'KP_N0','KP_N1','KP_N2','KP_N3','KP_N4',
-      'KP_N5','KP_N6','KP_N7','KP_N8','KP_N9',
-      'KP_PLUS','KP_MINUS','KP_MULTIPLY','KP_DIVIDE',
-      'KP_DOT','KP_ENTER','KP_EQUAL'
+      'MINUS','EQUAL','LBKT','RBKT','BSLH',
+      'SEMI','SQT','GRAVE','COMMA','DOT','FSLH',
+      'EXCL','AT','HASH','DLLR','PRCNT',
+      'CARET','AMPS','STAR','LPAR','RPAR',
+      'PLUS','UNDER','TILDE','PIPE',
+      'LBRC','RBRC','LT','GT','QMARK','DQT','COLON'
     ]
   },
   {
@@ -29,19 +31,10 @@ export const KEY_CATEGORIES = [
   {
     name: 'Navigation',
     keys: [
+      'ENTER','ESC','BSPC','DEL','TAB','SPACE','CAPS',
       'UP','DOWN','LEFT','RIGHT',
       'HOME','END','PG_UP','PG_DN',
-      'TAB','ENTER','SPACE','BSPC','DEL','ESC'
-    ]
-  },
-  {
-    name: 'Symbols',
-    keys: [
-      'MINUS','EQUAL','LBKT','RBKT','BSLH','PIPE',
-      'SEMI','SQT','GRAVE','COMMA','DOT','FSLH',
-      'EXCL','AT','HASH','DLLR','PRCNT',
-      'CARET','AMPS','STAR','LPAR','RPAR',
-      'PLUS','UNDER','TILDE'
+      'INS','PSCRN','SLCK','PAUSE_BREAK'
     ]
   },
   {
@@ -54,16 +47,32 @@ export const KEY_CATEGORIES = [
     ]
   },
   {
+    name: 'Keypad',
+    keys: [
+      'KP_N1','KP_N2','KP_N3','KP_N4','KP_N5',
+      'KP_N6','KP_N7','KP_N8','KP_N9','KP_N0',
+      'KP_PLUS','KP_MINUS','KP_MULTIPLY','KP_DIVIDE',
+      'KP_DOT','KP_ENTER','KP_EQUAL','KP_NUM'
+    ]
+  },
+  {
     name: 'Media',
     keys: [
       'C_VOL_UP','C_VOL_DN','C_MUTE',
-      'C_PLAY_PAUSE','C_NEXT','C_PREV',
-      'C_BRI_UP','C_BRI_DN'
+      'C_PLAY_PAUSE','C_PLAY','C_PAUSE','C_STOP',
+      'C_NEXT','C_PREV',
+      'C_BRI_UP','C_BRI_DN',
+      'C_RW','C_FF',
+      'K_PWR','K_SLEEP','K_LOCK'
     ]
   },
   {
     name: 'International',
-    keys: ['LANG1','LANG2','LANG3','LANG4']
+    keys: [
+      'LANG1','LANG2','LANG3','LANG4','LANG5',
+      'INT_RO','INT_KANA','INT_YEN',
+      'INT_HENKAN','INT_MUHENKAN'
+    ]
   }
 ];
 
